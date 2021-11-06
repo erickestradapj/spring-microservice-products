@@ -14,11 +14,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api")
 public class ProductController {
 
-    @Value("${server.port}")
-    private Integer port;
+    @Autowired
+    private Environment env;
 
     @Autowired
     private IProductService productService;
@@ -26,7 +25,7 @@ public class ProductController {
     @GetMapping("/list")
     public List<Product> list() {
         return productService.findAll().stream().map(product -> {
-            product.setPort(port);
+            product.setPort(Integer.parseInt(env.getProperty("local.server.port")));
             return product;
         }).collect(Collectors.toList());
     }
@@ -34,7 +33,7 @@ public class ProductController {
     @GetMapping("/view/{id}")
     public Product detail(@PathVariable Long id) {
         Product product = productService.findById(id);
-        product.setPort(port);
+        product.setPort(Integer.parseInt(env.getProperty("local.server.port")));
         return product;
     }
 }
