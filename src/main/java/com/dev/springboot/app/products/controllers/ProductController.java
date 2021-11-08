@@ -1,6 +1,6 @@
 package com.dev.springboot.app.products.controllers;
 
-import com.dev.springboot.app.products.models.entity.Product;
+import com.dev.spring.app.commons.models.entity.Product;
 import com.dev.springboot.app.products.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -59,7 +59,7 @@ public class ProductController {
 
         return productService.create(productDB);
     }
-    
+
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
