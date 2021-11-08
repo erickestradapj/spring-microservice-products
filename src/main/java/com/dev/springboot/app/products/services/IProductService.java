@@ -9,4 +9,8 @@ public interface IProductService {
     List<Product> findAll();
 
     Product findById(Long id);
+
+    Product create(Product product);
+
+    void deleteById(Long id);
 }

@@ -3,12 +3,9 @@ package com.dev.springboot.app.products.controllers;
 import com.dev.springboot.app.products.models.entity.Product;
 import com.dev.springboot.app.products.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -45,5 +42,27 @@ public class ProductController {
         Product product = productService.findById(id);
         product.setPort(Integer.parseInt(env.getProperty("local.server.port")));
         return product;
+    }
+
+    @PostMapping("/create")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Product create(@RequestBody Product product) {
+        return productService.create(product);
+    }
+
+    @PutMapping("/edit/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Product edit(@RequestBody Product product, @PathVariable Long id) {
+        Product productDB = productService.findById(id);
+        productDB.setName(product.getName());
+        productDB.setPrice(product.getPrice());
+
+        return productService.create(productDB);
+    }
+    
+    @DeleteMapping("/delete/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        productService.deleteById(id);
     }
 }
